@@ -279,13 +279,13 @@ class Login(Tk):
         label.grid(row = 0, column = 0, columnspan = 2)
 
         Label(self.contact, text = 'Twitter: ', background = 'white').grid(row = 1, column = 0, sticky = 'w')
-        Label(self.contact, text = '@TheRealZeznzo', background = 'white').grid(row = 1, column = 1, sticky = 'w')
+        Label(self.contact, text = '@Sajibekantibd', background = 'white').grid(row = 1, column = 1, sticky = 'w')
 
         Label(self.contact, text = 'LinkedIn: ', background = 'white').grid(row = 2, column = 0, sticky = 'w')
         Label(self.contact, text = '1337 Team', background = 'white').grid(row = 2, column = 1, sticky = 'w')
 
         Label(self.contact, text = 'GitHub: ', background = 'white').grid(row = 3, column = 0, sticky = 'w')
-        Label(self.contact, text = 'leonv024', background = 'white').grid(row = 3, column = 1, sticky = 'w')
+        Label(self.contact, text = 'Sajibekanti', background = 'white').grid(row = 3, column = 1, sticky = 'w')
 
         Label(self.contact, text = 'Email: ', background = 'white').grid(row = 4, column = 0, sticky = 'w')
         Label(self.contact, text = 'root@sajibekanti.com', background = 'white').grid(row = 4, column = 1, sticky = 'w')
