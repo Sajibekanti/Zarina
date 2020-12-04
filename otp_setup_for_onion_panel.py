@@ -12,7 +12,7 @@ def otp_setup(u, pw):
 
     payload = {'user': u, 'pwd': check_pwd}
 
-    r = requests.post('https://zeznzo.nl/login.py', data=payload)
+    r = requests.post('https://backendurl/login.py', data=payload)
     if r.status_code == 200:
         if r.text.startswith('[ERROR]'):
             print(r.text.split('[ERROR] ')[1])
@@ -30,7 +30,7 @@ def otp_setup(u, pw):
     try:
         payload = {'user': u, 'pwd': hashlib.sha256(pw.encode('utf-8')).hexdigest(), 'otp_id' : otp_id}
 
-        r = requests.post('https://zeznzo.nl/otp_setup.py', data=payload)
+        r = requests.post('https://backendurl/otp_setup.py', data=payload)
         if r.status_code == 200:
             if r.text.startswith('[ERROR]'):
                 print(r.text.split('[ERROR] ')[1])
