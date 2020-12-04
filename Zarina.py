@@ -648,11 +648,11 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         self.bind("<Escape>", self.close_profile) # Press ESC to quit app
 
         if platform.system() == 'Linux':
-            photo = Image.open(resource_path('images/incsec_full.png'))
+            photo = Image.open(resource_path('images/1337.gif'))
             resized = photo.resize((350,150), Image.ANTIALIAS)
             photo = ImageTk.PhotoImage(resized)
         else:
-            photo = PIL.Image.open(resource_path('images/incsec_full.png'))
+            photo = PIL.Image.open(resource_path('images/1337.gif'))
             resized = photo.resize((350,150), PIL.Image.ANTIALIAS)
             photo = PIL.ImageTk.PhotoImage(resized)
 
