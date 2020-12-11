@@ -1376,7 +1376,6 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         self.serv.options['log'].insert('1.0', banner + '\n', 'red')
 
     def get_ip_data(self, ip):
-         % ip
         url = 'http://ip-api.com/json/%s?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,query' % ip
 		try:
             r = requests.get(url, timeout = 5)
