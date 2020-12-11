@@ -113,7 +113,7 @@ def connector():
 class mainwindow(Tk):
     def __init__(self):
         Tk.__init__(self)
-        self.title(string = "Tango Down!") # Set window title
+        self.title(string = "Ransomware Attack!") # Set window title
         self.resizable(0,0) # Do not allow to be resized
         self.configure(background='black')
         #self.overrideredirect(True)
