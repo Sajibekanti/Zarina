@@ -2,7 +2,7 @@
 import os, sys, socket, string, random, hashlib, getpass, platform, threading, datetime, time
 
 host = '127.0.0.1'
-port = 8989
+port = 1337
 
 global os
 global name
