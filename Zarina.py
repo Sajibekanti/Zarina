@@ -1498,4 +1498,3 @@ ___________                      ____________ _________________
         messagebox.showinfo('License', 'Software: Free (Public Test)\nLicense: GNU General Public License v3.0')
 
 logon = Login()
-logon.mainloop()
