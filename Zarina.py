@@ -1372,7 +1372,6 @@ ___________                      ____________ _________________
 
     '''
     self.serv.options['log'].insert('1.0', banner + '\n', 'red')
-
     def get_ip_data(self, ip):
         url = 'http://ip-api.com/json/%s?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,as,asname,reverse,mobile,proxy,query' % ip
         try:
@@ -1497,3 +1496,4 @@ ___________                      ____________ _________________
         messagebox.showinfo('License', 'Software: Free (Public Test)\nLicense: GNU General Public License v3.0')
 
 logon = Login()
+logon.mainloop()
