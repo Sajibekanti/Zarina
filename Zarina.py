@@ -1342,6 +1342,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
 
    def insert_banner(self):
         banner = '''
+        
                          .:'                                  `:.
                          ::'                                    `::
                         :: :.                                  .: ::
@@ -1371,6 +1372,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         | |   ) || (      | |   | || |   | || | \   || || || || (   ) || (\ (   | (
         | (__/  )| (____/\| )   ( || (___) || )  \  || () () || )   ( || ) \ \__| (____/\\
         (______/ (_______/|/     \|(_______)|/    )_)(_______)|/     \||/   \__/(_______/
+
         '''
 
 self.serv.options['log'].insert('1.0', banner + '\n', 'red')
