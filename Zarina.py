@@ -1370,9 +1370,9 @@ ___________                      ____________ _________________
   |    |\  ___/ / __ \|  Y Y  \  |   |/       \/       \ /    / 
   |____| \___  >____  /__|_|  /  |___/______  /______  //____/  
              \/     \/      \/              \/       \/         
+'''
 
-
-        self.serv.options['log'].insert('1.0', banner + '\n', 'red')
+self.serv.options['log'].insert('1.0', banner + '\n', 'red')
 
     def get_ip_data(self, ip):
         url = 'http://ip-api.com/json/%s?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,as,asname,reverse,mobile,proxy,query' % ip
