@@ -343,7 +343,7 @@ class Login(Tk):
 class MainWindow(Tk):
     def __init__(self, username, password, email, name, surname, rank, status):
         Tk.__init__(self)
-        self.title(string = "RAASNet v%s" % __version__) # Set window title
+        self.title(string = "Zarian v%s" % __version__) # Set window title
         self.resizable(0,0) # Do not allow to be resized
         self.style = Style()
         self.style.theme_use("clam")
@@ -622,7 +622,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         label.image = photo # keep a reference!
         label.grid(row = 0, column = 0)
 
-        Label(self, text = 'RAASNet Generator', background = 'white', foreground = 'red', font='papyrus 32 bold').grid(row = 1, column = 0)
+        Label(self, text = ''Zarina Generato', background = 'white', foreground = 'red', font='papyrus 32 bold').grid(row = 1, column = 0)
 
         # Buttons
         start_server = HoverButton(self, text = "START SERVER", command = self.open_server, width = 18).grid(row = 2, column = 0)
@@ -1394,7 +1394,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         self.dirs.destroy()
 
     def open_github(self):
-        webbrowser.open_new_tab('https://www.github.com/leonv024/RAASNet')
+        webbrowser.open_new_tab('https://www.github.com/sajibekanti')
 
     def open_buy(self):
         webbrowser.open_new_tab('https://www.zeznzo.nl/')
