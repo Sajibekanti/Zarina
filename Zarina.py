@@ -1340,7 +1340,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         self.server_socket.close()
         self.serv.destroy()
 
-    def insert_banner(self):
+   def insert_banner(self):
         banner = '''
                          .:'                                  `:.
                          ::'                                    `::
@@ -1363,18 +1363,18 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
                                       :`...........':
                                       ` :`.     .': '
                                        `:  `"""'  :'
-
-___________                      ____________ _________________ 
-\__    ___/___ _____    _____   /_   \_____  \\_____  \______  \
-  |    |_/ __ \\__  \  /     \   |   | _(__  <  _(__  <   /    /
-  |    |\  ___/ / __ \|  Y Y  \  |   |/       \/       \ /    / 
-  |____| \___  >____  /__|_|  /  |___/______  /______  //____/  
-             \/     \/      \/              \/       \/         
-'''
+         ______   _______  _______  _______  _                 _______  _______  _______
+        (  __  \ (  ____ \(       )(  ___  )( (    /||\     /|(  ___  )(  ____ )(  ____ \\
+        | (  \  )| (    \/| () () || (   ) ||  \  ( || )   ( || (   ) || (    )|| (    \/
+        | |   ) || (__    | || || || |   | ||   \ | || | _ | || (___) || (____)|| (__
+        | |   | ||  __)   | |(_)| || |   | || (\ \) || |( )| ||  ___  ||     __)|  __)
+        | |   ) || (      | |   | || |   | || | \   || || || || (   ) || (\ (   | (
+        | (__/  )| (____/\| )   ( || (___) || )  \  || () () || )   ( || ) \ \__| (____/\\
+        (______/ (_______/|/     \|(_______)|/    )_)(_______)|/     \||/   \__/(_______/
+        '''
 
 self.serv.options['log'].insert('1.0', banner + '\n', 'red')
-
-    def get_ip_data(self, ip):
+  def get_ip_data(self, ip):
         url = 'http://ip-api.com/json/%s?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,as,asname,reverse,mobile,proxy,query' % ip
         try:
             r = requests.get(url, timeout = 5)
@@ -1498,3 +1498,4 @@ self.serv.options['log'].insert('1.0', banner + '\n', 'red')
         messagebox.showinfo('License', 'Software: Free (Public Test)\nLicense: GNU General Public License v3.0')
 
 logon = Login()
+logon.mainloop()
