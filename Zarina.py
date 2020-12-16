@@ -622,7 +622,7 @@ vV4t+0UE/G5fAN2ccz9Ug6PdAAAAAElFTkSuQmCC''')
         label.image = photo # keep a reference!
         label.grid(row = 0, column = 0)
 
-        Label(self, text = ''Zarina Generato', background = 'white', foreground = 'red', font='papyrus 32 bold').grid(row = 1, column = 0)
+        Label(self, text = 'Zarina Generato', background = 'white', foreground = 'red', font='papyrus 32 bold').grid(row = 1, column = 0)
 
         # Buttons
         start_server = HoverButton(self, text = "START SERVER", command = self.open_server, width = 18).grid(row = 2, column = 0)
