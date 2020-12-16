@@ -424,7 +424,7 @@ class MainWindow(Tk):
         self.options['inf_counter'].set(0)
 
         # Default Settings
-        self.options['host'].set('127.0.0.1')
+        self.options['host'].set('192.168.0.125')
         self.options['port'].set(1337)
         self.options['save_keys'].set(0)
         self.options['full_screen_var'].set(0)
